@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Questrial, Orbitron } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "./app-providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const questrial = Questrial({
   subsets: ["latin"],
+  variable: "--font-questrial",
+  weight: "400", // Questrial only supports weight 400
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const kodeMono = Orbitron({
   subsets: ["latin"],
+  variable: "--font-kode-mono",
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${questrial.variable} ${kodeMono.variable} antialiased`}
       >
         <AppProviders>{children}</AppProviders>
       </body>

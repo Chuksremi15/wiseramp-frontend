@@ -42,7 +42,7 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           {/* <Logo /> */}
           <Link href="/" className="text-lg font-bold font-head ">
-            <Image
+            {/* <Image
               src={`${
                 currentTheme === "dark"
                   ? "/logo/logowhite.svg"
@@ -51,7 +51,9 @@ export const Header = () => {
               alt="Card heading icon"
               width={140}
               height={140}
-            />
+            /> */}
+
+            <h1 className="text-xl font-head">WiseRamp</h1>
           </Link>
 
           <div className="flex md:gap-x-12 md:ml-20 gap-x-3">
