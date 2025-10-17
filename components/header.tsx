@@ -7,10 +7,14 @@ import { usePathname } from "next/navigation";
 import { ArrowLeftRight, History } from "lucide-react";
 
 import { useTheme } from "next-themes";
+import { useAuth } from "@/contexts/auth-context";
+import AuthModal from "./modal/auth-modal";
 
 export const Header = () => {
   const pathname = usePathname();
   const { theme, resolvedTheme } = useTheme();
+
+  const { isAuthenticated } = useAuth();
 
   const currentTheme = resolvedTheme || theme;
 
@@ -85,6 +89,7 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center  md:gap-4 gap-2">
+          {!isAuthenticated && <AuthModal />}
           <ThemeSelect />
         </div>
       </div>

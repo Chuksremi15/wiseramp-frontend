@@ -2,9 +2,10 @@
 
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/toaster";
+import { AuthProvider } from "@/contexts/auth-context";
 import { ProgressProvider } from "@bprogress/next/app";
 import { HeroUIProvider } from "@heroui/react";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -67,20 +68,24 @@ export function AppProviders({
 
   return (
     <>
-      {mounted ? (
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <HeroUIProvider>
-            <SectionWrapper>{children}</SectionWrapper>
-          </HeroUIProvider>
-        </ThemeProvider>
-      ) : (
-        <div className="min-h-screen bg-black" />
-      )}
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          {mounted ? (
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <HeroUIProvider>
+                <SectionWrapper>{children}</SectionWrapper>
+              </HeroUIProvider>
+            </ThemeProvider>
+          ) : (
+            <div className="min-h-screen bg-black" />
+          )}
+        </AuthProvider>
+      </QueryClientProvider>
     </>
   );
 }
