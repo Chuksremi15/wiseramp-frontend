@@ -119,44 +119,15 @@ export const useCreateTransaction = () => {
         destinationCurrency
       );
 
-      const createTransactionRes = await api.post(
-        endpoint,
-        createTransactionPayload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const { data } = await api.post(endpoint, createTransactionPayload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      const transaction = createTransactionRes.data.transaction;
+      setTransactionData(data.transaction);
 
-      setTransactionData(transaction);
-
-      // After successful transaction, add address
-      if (transaction && transaction.sourceAddress) {
-        const addAddressPayload = {
-          address: transaction.sourceAddress,
-          tokenMint,
-          chain: sourceChain,
-          timeoutMs: 30 * 60 * 1000,
-        };
-
-        const addressWatcherUrl = "http://localhost:4000/add-address";
-
-        try {
-          await axios.post(addressWatcherUrl, addAddressPayload, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        } catch (e) {
-          // Optionally handle/log add address error
-          console.error("Failed to add address", e);
-        }
-      }
-
-      return { success: true, transaction };
+      return { success: true, transaction: data.transaction };
     } catch (err) {
       console.log("err", err);
       let errorMessage = "Create Transaction failed";

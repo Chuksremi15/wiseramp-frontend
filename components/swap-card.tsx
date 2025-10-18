@@ -108,7 +108,9 @@ const SwapCard = () => {
       {/* <div className="absolute inset-0 swap-background"></div> */}
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-medium font-head mb-2">Buy, Sell, Swap</h1>
-        <p className="text-muted-foreground text-sm">Coinbox dey for you!</p>
+        <p className="text-muted-foreground text-sm">
+          Fast, seamless exchange{" "}
+        </p>
       </div>
 
       <div className="w-[480px] max-w-2xl bg-white dark:bg-section-backround  rounded-2xl p-3 relative  space-y-5 border">

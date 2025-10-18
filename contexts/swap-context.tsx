@@ -63,6 +63,8 @@ interface SwapContextType {
   destinationAddress: string;
   selectedBankAccount: BankAccount | null;
   setSelectedBankAccount: (account: BankAccount | null) => void;
+
+  getLocalTransactionData: (id: string) => TransactionResponse | null;
 }
 
 export function getPriceFeedSymbol(
@@ -271,6 +273,15 @@ export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
       bankAccountId: selectedBankAccount?.id || undefined,
     });
 
+  const getLocalTransactionData = (id: string): TransactionResponse | null => {
+    try {
+      return transactionData;
+    } catch (error) {
+      console.warn("Failed to get local transaction data:", error);
+      return null;
+    }
+  };
+
   // Update receive amount when query data changes
   useEffect(() => {
     if (queryData?.destinationEquivalent !== undefined) {
@@ -404,6 +415,8 @@ export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
     destinationAddress,
     selectedBankAccount,
     setSelectedBankAccount,
+
+    getLocalTransactionData,
   };
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;
