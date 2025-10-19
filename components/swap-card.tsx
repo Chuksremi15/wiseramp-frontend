@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { LuArrowUpDown, LuInfo } from "react-icons/lu";
+import { LuArrowUpDown, LuChevronDown, LuInfo } from "react-icons/lu";
 
 import { AddressInput } from "./address-input";
 
@@ -19,6 +19,7 @@ import { FetchingRatesIndicator } from "@/components/ui/fetching-rates-indicator
 import { SellCard } from "./sell-card";
 import { useSwap } from "@/contexts/swap-context";
 import { ReceiveCard } from "./receive-card";
+import { BankAccountSelector } from "./modal/bank-account-selector";
 
 /**
  * The main Swap component replicating the UI from the image.
@@ -170,15 +171,7 @@ const SwapCard = () => {
 
         {/* Receiving Address Input */}
 
-        <AddressInput
-          address={destinationAddress}
-          setAddress={setDestinationAddress}
-          addressError={addressError}
-          setAddressError={setAddressError}
-          receiveToken={receiveToken}
-        />
-
-        {/* {receiveToken.symbol !== "NGN" ? (
+        {receiveToken.symbol !== "NGN" ? (
           <AddressInput
             address={destinationAddress}
             setAddress={setDestinationAddress}
@@ -191,7 +184,7 @@ const SwapCard = () => {
             selectedAccount={selectedBankAccount}
             onAccountSelect={setSelectedBankAccount}
           />
-        )} */}
+        )}
 
         {/* Call to Action Button */}
         <div className="flex flex-col items-center">
