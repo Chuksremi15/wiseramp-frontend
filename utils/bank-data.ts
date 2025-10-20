@@ -35,20 +35,7 @@ const NIGERIAN_BANKS: BankData[] = [
     ussd: "",
     logo: "https://nigerianbanks.xyz/logo/asosavings.png",
   },
-  {
-    name: "Bowen Microfinance Bank",
-    slug: "bowen-microfinance-bank",
-    code: "50931",
-    ussd: "",
-    logo: "https://nigerianbanks.xyz/logo/default-image.png",
-  },
-  {
-    name: "CEMCS Microfinance Bank",
-    slug: "cemcs-microfinance-bank",
-    code: "50823",
-    ussd: "",
-    logo: "https://nigerianbanks.xyz/logo/default-image.png",
-  },
+
   {
     name: "Citibank Nigeria",
     slug: "citibank-nigeria",
@@ -63,13 +50,7 @@ const NIGERIAN_BANKS: BankData[] = [
     ussd: "*326#",
     logo: "https://nigerianbanks.xyz/logo/ecobank-nigeria.png",
   },
-  {
-    name: "Ekondo Microfinance Bank",
-    slug: "ekondo-microfinance-bank",
-    code: "562",
-    ussd: "*540*178#",
-    logo: "https://nigerianbanks.xyz/logo/ekondo-microfinance-bank.png",
-  },
+
   {
     name: "Fidelity Bank",
     slug: "fidelity-bank",
@@ -105,13 +86,7 @@ const NIGERIAN_BANKS: BankData[] = [
     ussd: "*737#",
     logo: "https://nigerianbanks.xyz/logo/guaranty-trust-bank.png",
   },
-  {
-    name: "Hasal Microfinance Bank",
-    slug: "hasal-microfinance-bank",
-    code: "50383",
-    ussd: "*322*127#",
-    logo: "https://nigerianbanks.xyz/logo/default-image.png",
-  },
+
   {
     name: "Heritage Bank",
     slug: "heritage-bank",
@@ -189,13 +164,7 @@ const NIGERIAN_BANKS: BankData[] = [
     ussd: "*7797#",
     logo: "https://nigerianbanks.xyz/logo/default-image.png",
   },
-  {
-    name: "Sparkle Microfinance Bank",
-    slug: "sparkle-microfinance-bank",
-    code: "51310",
-    ussd: "",
-    logo: "https://nigerianbanks.xyz/logo/sparkle-microfinance-bank.png",
-  },
+
   {
     name: "Stanbic IBTC Bank",
     slug: "stanbic-ibtc-bank",

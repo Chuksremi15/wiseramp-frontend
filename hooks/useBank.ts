@@ -3,6 +3,18 @@ import api from "@/utils/api";
 import { useAuth } from "@/contexts/auth-context";
 import { GetAllBankAccountsResponse } from "@/types/bank";
 
+export const useBank = () => {
+  return useQuery({
+    queryKey: ["bank_lists"],
+    queryFn: async () => {
+      const res = await api.get("https://api.paystack.co/bank");
+      return res.data;
+    },
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+};
+
 // 1. Create Bank Account
 export const useCreateBankAccount = () => {
   const queryClient = useQueryClient();

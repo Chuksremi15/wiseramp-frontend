@@ -9,50 +9,41 @@ export interface BankAccount {
   updatedAt: string;
 }
 
-export interface GetAllBankAccountsResponse {
+// Generic API Response Types
+export interface ApiResponse<T> {
   success: true;
-  data: BankAccount[];
+  data: T;
+}
+
+export interface ApiResponseWithMessage<T> extends ApiResponse<T> {
+  message: string;
+}
+
+export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   total: number;
 }
 
-export interface GetBankAccountByIdResponse {
-  success: true;
-  data: BankAccount;
-}
+// Bank Account API Response Types
+export type GetAllBankAccountsResponse = PaginatedResponse<BankAccount>;
+export type GetBankAccountByIdResponse = ApiResponse<BankAccount>;
+export type CheckUserBankAccountsResponse = ApiResponse<{
+  hasBankAccounts: boolean;
+  accountCount: number;
+}>;
 
-export interface CheckUserBankAccountsResponse {
-  success: true;
-  data: {
-    hasBankAccounts: boolean;
-    accountCount: number;
-  };
-}
-
+// Bank Account Request Types
 export interface CreateBankAccountRequest {
   accountName: string;
   bankName: string;
   accountNumber: string;
 }
 
-export interface CreateBankAccountResponse {
-  success: true;
-  message: string;
-  data: BankAccount;
-}
+export type UpdateBankAccountRequest = Partial<CreateBankAccountRequest>;
 
-export interface UpdateBankAccountRequest {
-  accountName?: string;
-  bankName?: string;
-  accountNumber?: string;
-}
-
-export interface UpdateBankAccountResponse {
-  success: true;
-  message: string;
-  data: BankAccount;
-}
-
-export interface DeleteBankAccountResponse {
-  success: true;
-  message: string;
-}
+// Bank Account Response Types
+export type CreateBankAccountResponse = ApiResponseWithMessage<BankAccount>;
+export type UpdateBankAccountResponse = ApiResponseWithMessage<BankAccount>;
+export type DeleteBankAccountResponse = Omit<
+  ApiResponseWithMessage<never>,
+  "data"
+>;
