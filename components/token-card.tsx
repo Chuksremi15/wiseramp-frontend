@@ -57,9 +57,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({
             onValidationChange={onValidationChange}
           />
           {showBalance ? (
-            <p className="">
-              $ {(tokenPrice && formatNumber(tokenPrice)) || 0}{" "}
-            </p>
+            <p>$ {(tokenPrice && formatNumber(tokenPrice)) || 0} </p>
           ) : (
             <p className="opacity-0"> $ 12</p>
           )}

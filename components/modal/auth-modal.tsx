@@ -29,7 +29,6 @@ const AuthModal = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
 
   const { login, isLoading, register, loginWithGoogleToken } = useAuth();
 
@@ -45,14 +44,10 @@ const AuthModal = ({
         error && toast.error(<span className="text-red-500">{error}</span>);
       }
     } else {
-      // Handle registration logic
-      console.log("Register with:", { name, phone, email });
-
       const { success, error } = await register({
         email,
         password,
         name,
-        phone,
       });
 
       if (success) {
@@ -122,21 +117,6 @@ const AuthModal = ({
                           required
                         />
                       </div>
-
-                      <div>
-                        <label className="block text-sm mb-1" htmlFor="phone">
-                          Phone
-                        </label>
-                        <input
-                          id="phone"
-                          type="tel"
-                          placeholder="Enter your phone number"
-                          className="text-sm custom-input w-full px-4 py-3 border  border-[#37474F] rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:border-0  focus:outline-[1.5px] focus:outline-primary  hover:shadow-lg dark:bg-[#]  "
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          required
-                        />
-                      </div>
                     </>
                   )}
 
@@ -179,14 +159,19 @@ const AuthModal = ({
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
-                    <Button isLoading={isLoading} color="primary" type="submit">
-                      {isLogin ? "Sign In" : "Sign Up"}
+                    <Button
+                      isLoading={isLoading}
+                      color="primary"
+                      type="submit"
+                      className="rounded-full px-6 text-base  text-black"
+                    >
+                      {isLogin ? "Login" : "Register"}
                     </Button>
                     <Button
                       variant="light"
-                      color="primary"
                       type="button"
                       onPress={toggleForm}
+                      className="rounded-full"
                     >
                       {isLogin
                         ? "Need to register?"

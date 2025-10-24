@@ -321,11 +321,32 @@ export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
 
   // Custom setters that trigger exchange rate updates
   const handleSetSellToken = (token: Token) => {
+    // If the same token is selected for both sell and receive, swap the receive token to a different one
+    if (
+      token.symbol === receiveToken.symbol &&
+      token.chain === receiveToken.chain
+    ) {
+      // Find a different token to set as receive token (default to first available different token)
+      const differentToken =
+        tokens.find(
+          (t) => t.symbol !== token.symbol || t.chain !== token.chain
+        ) || tokens[0];
+      setReceiveToken(differentToken);
+    }
     setSellToken(token);
     // Exchange rate will be updated by the useEffect
   };
 
   const handleSetReceiveToken = (token: Token) => {
+    // If the same token is selected for both sell and receive, swap the sell token to a different one
+    if (token.symbol === sellToken.symbol && token.chain === sellToken.chain) {
+      // Find a different token to set as sell token (default to first available different token)
+      const differentToken =
+        tokens.find(
+          (t) => t.symbol !== token.symbol || t.chain !== token.chain
+        ) || tokens[0];
+      setSellToken(differentToken);
+    }
     setReceiveToken(token);
     // Exchange rate will be updated by the useEffect
   };

@@ -32,7 +32,6 @@ interface AuthContextType {
     email: string;
     password: string;
     name: string;
-    phone: string;
   }) => Promise<{ success: boolean; error?: any }>;
   loginWithGoogleToken: (
     googleToken: string
@@ -175,9 +174,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string;
     password: string;
     name: string;
-    phone: string;
   }) => {
-    const { email, password, name, phone } = credentials;
+    const { email, password, name } = credentials;
     setIsLoading(true);
 
     try {
@@ -185,7 +183,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         email,
         password,
         name,
-        phone,
       });
       const data = registerRes.data;
 

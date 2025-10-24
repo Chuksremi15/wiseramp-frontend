@@ -540,9 +540,9 @@ const CryptoSwapInterface = () => {
           <div className="flex gap-2 font-body ">
             <Button
               onPress={() => setCurrentView("summary")}
-              className={`px-4 rounded-lg text-sm font-medium transition-colors text-black ${
+              className={`px-4 rounded-full text-sm font-medium transition-colors text-black ${
                 currentView === "summary"
-                  ? " bg-black text-white  dark:text-black dark:bg-white"
+                  ? " bg-green-400 text-black  dark:text-black dark:bg-white"
                   : "bg-gray-200 dark:bg-[#3a3a3a] text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4a4a4a]"
               }`}
             >
@@ -550,9 +550,9 @@ const CryptoSwapInterface = () => {
             </Button>
             <Button
               onPress={() => setCurrentView("deposit")}
-              className={`px-4 rounded-lg text-sm font-medium transition-colors text-black ${
+              className={`px-4 rounded-full text-sm font-medium transition-colors text-black ${
                 currentView === "deposit"
-                  ? " bg-black text-white  dark:text-black dark:bg-white"
+                  ? " bg-green-400 text-black  dark:text-black dark:bg-white"
                   : "bg-gray-200 dark:bg-[#3a3a3a] text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4a4a4a]"
               }`}
             >
@@ -593,7 +593,7 @@ const CryptoSwapInterface = () => {
                     symbol={transaction?.sourceCurrency?.toLowerCase() || ""}
                   />
 
-                  <span className="text-xl font-bold font-head">
+                  <span className="text-xl font-bold">
                     {memoizedAmounts?.formattedSourceAmount}{" "}
                     {transaction?.sourceCurrency}
                   </span>

@@ -42,11 +42,13 @@ const Page = () => {
       (transaction: TransactionResponse) => {
         const searchLower = searchQuery.toLowerCase();
         return (
-          transaction.transactionId.toLowerCase().includes(searchLower) ||
-          transaction.sourceCurrency.toLowerCase().includes(searchLower) ||
-          transaction.destinationCurrency.toLowerCase().includes(searchLower) ||
-          transaction.sourceAddress.toLowerCase().includes(searchLower) ||
-          transaction.destinationAddress.toLowerCase().includes(searchLower) ||
+          transaction.transactionId?.toLowerCase().includes(searchLower) ||
+          transaction.sourceCurrency?.toLowerCase().includes(searchLower) ||
+          transaction.destinationCurrency
+            ?.toLowerCase()
+            .includes(searchLower) ||
+          transaction.sourceAddress?.toLowerCase().includes(searchLower) ||
+          transaction.destinationAddress?.toLowerCase().includes(searchLower) ||
           transaction.sourceTransactionHash
             ?.toLowerCase()
             .includes(searchLower) ||

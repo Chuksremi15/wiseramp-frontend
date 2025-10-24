@@ -108,7 +108,9 @@ const SwapCard = () => {
     <div className="bg-gray-100 dark:bg-section-backround flex flex-col font-body min-h-screen items-center  pt-22 p-4">
       {/* <div className="absolute inset-0 swap-background"></div> */}
       <div className="mb-6 text-center">
-        <h1 className="text-3xl font-medium font-head mb-2">Buy, Sell, Swap</h1>
+        <h1 className="text-3xl font-medium font-head mb-2">
+          Get Crypto - Cash
+        </h1>
         <p className="text-muted-foreground text-sm">
           Fast, seamless exchange{" "}
         </p>
@@ -155,7 +157,7 @@ const SwapCard = () => {
           </div>
 
           {/* Swap Icon Button */}
-          <div className="absolute left-1/2 -translate-x-1/2 -top-[-100px]  ">
+          <div className="absolute left-1/2 -translate-x-1/2 -top-[-100px]">
             <button
               onClick={swapTokens}
               className={`bg-card hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-300 rounded-lg p-2 border-4 border-card ${

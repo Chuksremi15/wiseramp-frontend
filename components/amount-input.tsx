@@ -172,7 +172,7 @@ export const AmountInput: React.FC<AmountInputProps> = ({
         placeholder={placeholder}
         disabled={disabled}
       />
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-xs mt-5 absolute">{error}</p>}
     </div>
   );
 };
