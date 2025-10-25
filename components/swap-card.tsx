@@ -41,6 +41,7 @@ const SwapCard = () => {
     isCreatingTransaction,
     selectedBankAccount,
     setSelectedBankAccount,
+    resetForm,
   } = useSwap();
 
   const [addressError, setAddressError] = useState("");
@@ -71,11 +72,12 @@ const SwapCard = () => {
         success,
       } = await handleCreateTransaction();
 
-      console.log("transactionData", transactionData);
-
       if (success && transactionData) {
         // Success! Show success toast, redirect, etc.
         toast.success("Transaction created successfully!");
+
+        // Reset form fields
+        resetForm();
 
         // Navigate to the preloaded page
         router.push(`/active-transaction/${transactionData.transactionId}`);
@@ -109,7 +111,7 @@ const SwapCard = () => {
       {/* <div className="absolute inset-0 swap-background"></div> */}
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-medium font-head mb-2">
-          Get Crypto - Cash
+          Buy, Sell - Crypto
         </h1>
         <p className="text-muted-foreground text-sm">
           Fast, seamless exchange{" "}

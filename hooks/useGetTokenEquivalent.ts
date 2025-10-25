@@ -83,8 +83,8 @@ export function useGetTokenEquivalent(
     queryFn: () =>
       getTokenEquivalent(destinationToken, sourceToken, sourceAmount),
     enabled: enabled && sourceAmount > 0,
-    staleTime: 30000, // 30 seconds
-    refetchInterval: 30000, // Refetch every minute
+    staleTime: 12000, // 30 seconds
+    refetchInterval: 12000, // Refetch every minute
   });
 }
 

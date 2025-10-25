@@ -63,6 +63,7 @@ interface SwapContextType {
   destinationAddress: string;
   selectedBankAccount: BankAccount | null;
   setSelectedBankAccount: (account: BankAccount | null) => void;
+  resetForm: () => void;
 }
 
 export function getPriceFeedSymbol(
@@ -397,6 +398,13 @@ export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
     }, 150);
   };
 
+  const resetForm = () => {
+    setSellAmount("");
+    setReceiveAmount("");
+    setDestinationAddress("");
+    setSelectedBankAccount(null);
+  };
+
   const value: SwapContextType = {
     sellToken,
     receiveToken,
@@ -425,6 +433,7 @@ export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
     destinationAddress,
     selectedBankAccount,
     setSelectedBankAccount,
+    resetForm,
   };
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;

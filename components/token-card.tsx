@@ -16,6 +16,7 @@ interface TokenCardProps {
   children?: React.ReactNode;
   onValidationChange?: (isValid: boolean, error?: string) => void;
   isBackground?: boolean;
+  gettingTokenEquivalentLoading: boolean;
 }
 
 export const TokenCard: React.FC<TokenCardProps> = ({
@@ -31,6 +32,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({
   children,
   onValidationChange,
   isBackground = true,
+  gettingTokenEquivalentLoading,
 }) => {
   return (
     <div
@@ -57,9 +59,13 @@ export const TokenCard: React.FC<TokenCardProps> = ({
             onValidationChange={onValidationChange}
           />
           {showBalance ? (
-            <p>$ {(tokenPrice && formatNumber(tokenPrice)) || 0} </p>
+            gettingTokenEquivalentLoading ? (
+              <p className="opacity-0">Loading...</p>
+            ) : (
+              <p>$ {(tokenPrice && formatNumber(tokenPrice)) || 0} </p>
+            )
           ) : (
-            <p className="opacity-0"> $ 12</p>
+            <></>
           )}
         </div>
       </div>

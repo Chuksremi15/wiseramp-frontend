@@ -18,6 +18,7 @@ export const SellCard = ({
     setError,
     sellTokenPrice,
     setSellToken,
+    gettingTokenEquivalentLoading,
   } = useSwap();
 
   const handleValidationChange = (isValid: boolean, error?: string) => {
@@ -33,6 +34,7 @@ export const SellCard = ({
       onValidationChange={handleValidationChange}
       tokenPrice={sellTokenPrice}
       isBackground={isBackground}
+      gettingTokenEquivalentLoading={gettingTokenEquivalentLoading}
     >
       <TokenSelector
         selectedToken={sellToken}

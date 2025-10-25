@@ -97,8 +97,6 @@ export const useCreateTransaction = () => {
         bankAccountId,
       };
 
-      console.log("createTransactionPayload", createTransactionPayload);
-
       // Determine transaction type based on currency types
       const getTransactionEndpoint = (
         source: string,
