@@ -13,6 +13,7 @@ import { TransactionResponse } from "@/hooks/useCreateTransaction";
 import BankAccountComponent from "@/components/ui/bank-account-component";
 import { TokenIconWrapper } from "@/components/ui/token-icon";
 import { formatNumber } from "@/utils/helpers";
+import TransactionSuccessModal from "@/components/modal/transaction-success-modal";
 
 // Memoized component for transaction details to prevent unnecessary re-renders
 const TransactionDetails = memo(
@@ -98,7 +99,9 @@ const TimerDisplay = memo(
     timeLeft: number;
   }) => {
     const currentTransaction = activeTransaction || transaction;
-    const isCompleted = currentTransaction?.status === "completed";
+    const isCompleted =
+      currentTransaction?.status === "completed" ||
+      currentTransaction?.status === "failed";
     const hasTimeLeft = timeLeft > 0;
 
     return (
@@ -237,37 +240,29 @@ QRCodeSection.displayName = "QRCodeSection";
 const CryptoSwapInterface = () => {
   const params = useParams();
 
-  const { transactionData, getLocalTransactionData } = useSwap();
+  const { transactionData } = useSwap();
   const transactionId = params.id as string;
-
-  // Optimistic loading: Check for cached data first
-  const cachedTransaction = useMemo(() => {
-    return getLocalTransactionData(transactionId);
-  }, [transactionId, getLocalTransactionData]);
 
   // Initialize with cached data if available, otherwise use context data
   const [transaction, setTransaction] = useState<TransactionResponse | null>(
     () => {
-      return cachedTransaction || transactionData || null;
+      return transactionData || null;
     }
   );
 
   // Only fetch from API if we don't have cached data
-  const shouldFetchFromAPI = !cachedTransaction && !transactionData;
 
   const { data: activeTransaction, error } = useGetActiveTransaction(
     transactionId,
-    transaction?.sourceAddress,
-    transaction?.sourceChain,
-    shouldFetchFromAPI
+    true
   );
 
   // Update transaction state when context data changes
   useEffect(() => {
-    if (transactionData && !cachedTransaction) {
+    if (transactionData) {
       setTransaction(transactionData);
     }
-  }, [transactionData, cachedTransaction]);
+  }, [transactionData]);
 
   // Update transaction state when API data is fetched (background loading)
   useEffect(() => {
@@ -286,7 +281,7 @@ const CryptoSwapInterface = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Track if we're loading fresh data in background
-  const isLoadingFreshData = shouldFetchFromAPI && !activeTransaction;
+  const isLoadingFreshData = !activeTransaction;
 
   // Memoized calculations for expensive operations
   const memoizedAmounts = useMemo(() => {
@@ -470,7 +465,7 @@ const CryptoSwapInterface = () => {
   }
 
   // Only show loading if we have no transaction data at all (no cache, no context)
-  if (!transaction && !cachedTransaction) {
+  if (!transaction) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-section-backround transition-colors duration-300">
         <div className="max-w-md w-full mx-auto bg-section-backround/80 backdrop-blur-md rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden flex flex-col items-center p-8">
@@ -506,6 +501,12 @@ const CryptoSwapInterface = () => {
   return (
     <div className="min-h-screen p-4 bg-gray-100 dark:bg-section-backround pt-22  text-gray-900 dark:text-white transition-colors duration-300">
       {/* Main Modal */}
+      <TransactionSuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        transaction={transaction}
+      />
+
       <div className="w-[490px] max-w-lg mx-auto bg-section-backround rounded-lg border  overflow-hidden">
         {/* Header */}
         <div className="p-6 pb-4">
@@ -579,15 +580,6 @@ const CryptoSwapInterface = () => {
                   You&apos;re Sending
                 </h3>
                 <div className="flex items-center justify-center relative  gap-3">
-                  {/* <div className="w-10 h-10 bg-background rounded-full flex items-center justify-center">
-                    <TokenIcon
-                      symbol={transaction.sourceCurrency.toLocaleLowerCase()}
-                      variant="branded"
-                      size={40}
-                      fallback={<TokenIconFallback />}
-                    />
-                  </div> */}
-
                   <TokenIconWrapper
                     size={40}
                     symbol={transaction?.sourceCurrency?.toLowerCase() || ""}

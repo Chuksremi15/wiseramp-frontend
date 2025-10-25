@@ -1,162 +1,64 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import api from "@/utils/api";
+import { TransactionResponse } from "./useCreateTransaction";
+
+interface ApiTransactionResponse {
+  transaction: TransactionResponse;
+}
 
 export function useGetActiveTransaction(
   transactionId: string | undefined,
-  address?: string,
-  sourceChain?: string,
-  enabled = true,
-  useWebSocket = true
+  enabled = true
 ) {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const wsRef = useRef<WebSocket | null>(null);
+  const query = useQuery<ApiTransactionResponse>({
+    queryKey: ["activeTransaction", transactionId],
+    queryFn: async () => {
+      console.log("Fetching transaction:", transactionId);
+      const res = await api.get(`/transaction/${transactionId}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  useEffect(() => {
-    if (!transactionId || !enabled) return;
-    let isMounted = true;
+      console.log("Transaction status:", res.data.transaction.status);
+      return res.data;
+    },
+    enabled: Boolean(transactionId) && enabled,
+    refetchInterval: (query) => {
+      // Stop polling if transaction is in a final state
+      const data = query.state.data;
+      if (data?.transaction) {
+        const isCompleted =
+          data.transaction.status === "completed" ||
+          data.transaction.status === "expired" ||
+          data.transaction.status === "failed";
 
-    const fetchTransaction = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const res = await api.get(`/transaction/${transactionId}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (isMounted) {
-          setData(res.data.transaction);
-
-          if (
-            res.data.transaction.status === "completed" ||
-            res.data.transaction.status === "expired" ||
-            res.data.transaction.status === "failed"
-          )
-            if (pollIntervalRef.current) {
-              clearInterval(pollIntervalRef.current);
-              pollIntervalRef.current = null;
-            }
+        if (isCompleted) {
+          console.log("Stopping polling - transaction completed");
+          return false; // Stop polling
         }
-      } catch (err: any) {
-        if (isMounted)
-          setError(
-            err.response?.data?.message ||
-              err.message ||
-              "Failed to fetch transaction"
-          );
-      } finally {
-        if (isMounted) setIsLoading(false);
       }
-    };
+      return 5000; // Continue polling every 5 seconds
+    },
+    refetchIntervalInBackground: true,
+    staleTime: 0, // Always consider data stale to ensure fresh polling
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes after unmount
+    retry: (failureCount, error: any) => {
+      // Retry up to 3 times for network errors, but not for 4xx errors
+      if (error?.response?.status >= 400 && error?.response?.status < 500) {
+        return false;
+      }
+      return failureCount < 3;
+    },
+  });
 
-    // Start polling by default
-    pollIntervalRef.current = setInterval(fetchTransaction, 5000);
-    fetchTransaction();
-
-    // If using WebSocket, set up connection
-    if (useWebSocket && address) {
-      // Replace with your actual WebSocket URL and protocol as needed
-
-      const ws = new WebSocket(`ws://localhost:4000`);
-
-      wsRef.current = ws;
-
-      ws.onopen = () => {
-        console.log("Connected!");
-
-        // Stop polling when WebSocket is open
-        if (pollIntervalRef.current) {
-          clearInterval(pollIntervalRef.current);
-          pollIntervalRef.current = null;
-        }
-        // Subscribe to the address
-        ws.send(
-          JSON.stringify({
-            type: "subscribe",
-            address: address,
-            chain: sourceChain,
-          })
-        );
-      };
-
-      ws.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-
-        if (msg.type === "transaction_update") {
-          console.log("msg data", msg);
-
-          console.log("msg", msg);
-          console.log("prev.transactionId", data);
-
-          if (isMounted) {
-            setData((prev: any) =>
-              prev && prev.transactionId === msg.transactionId
-                ? { ...prev, status: msg.status, completedAt: msg.completedAt }
-                : prev
-            );
-
-            // Unsubscribe after receiving the update
-            if (msg.status === "completed") {
-              if (
-                wsRef.current &&
-                wsRef.current.readyState === WebSocket.OPEN
-              ) {
-                wsRef.current.send(
-                  JSON.stringify({
-                    type: "unsubscribe",
-                    address: address,
-                  })
-                );
-              }
-
-              // Stop polling when transaction is completed
-              if (pollIntervalRef.current) {
-                clearInterval(pollIntervalRef.current);
-                pollIntervalRef.current = null;
-              }
-            }
-          }
-        } else if (msg.type === "subscribed") {
-          console.log(`Subscribed to updates for address: ${msg.address}`);
-        } else if (msg.error) {
-          console.error("WebSocket error:", msg.error);
-        }
-      };
-
-      ws.onerror = (event) => {
-        console.error("WebSocket error:", event);
-      };
-
-      ws.onclose = () => {
-        // Resume polling if WebSocket closes
-        if (!pollIntervalRef.current) {
-          pollIntervalRef.current = setInterval(fetchTransaction, 5000);
-        }
-      };
-    }
-
-    return () => {
-      isMounted = false;
-      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
-      if (wsRef.current) wsRef.current.close();
-    };
-  }, [transactionId, address, enabled, useWebSocket]);
-
-  // Unsubscribe function (if needed)
-  const unsubscribeFromAddress = useCallback((addressToUnsub: string) => {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(
-        JSON.stringify({
-          type: "unsubscribe",
-          address: addressToUnsub,
-        })
-      );
-    }
-  }, []);
-
-  return { data, isLoading, error, unsubscribeFromAddress };
+  return {
+    data: query.data?.transaction || null,
+    isLoading: query.isLoading,
+    error: query.error
+      ? (query.error as any)?.response?.data?.message ||
+        (query.error as any)?.message ||
+        "Failed to fetch transaction"
+      : null,
+  };
 }

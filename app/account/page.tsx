@@ -700,7 +700,13 @@ const Page = () => {
                         placeholder="Account Number"
                         type="number"
                         value={accountNumber}
-                        onChange={(e) => setAccountNumber(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Only allow numbers and limit to 10 digits
+                          if (value.length <= 10 && /^\d*$/.test(value)) {
+                            setAccountNumber(value);
+                          }
+                        }}
                       />
                       <div className="flex items-center gap-x-1 bg-yellow-500/10 mb-8 mt-3 p-2">
                         <AiOutlineExclamationCircle size={14} />
