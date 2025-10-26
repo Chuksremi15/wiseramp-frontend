@@ -94,18 +94,7 @@ export const tokens: Token[] = [
     chain: "fiat",
     isNetworkToken: true,
   },
-  // {
-  //   symbol: "USDC",
-  //   name: "USD Coin",
-  //   icon: "$",
-  //   color: "#ffffff",
-  //   address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bda02913",
-  //   decimals: 6,
-  //   maxValue: 5000,
-  //   priceFeedSymbol: getPriceFeedSymbol("USDC"),
-  //   chain: "polygon",
-  //   isNetworkToken: false,
-  // },
+
   {
     symbol: "USDC",
     name: "USD Coin",
@@ -123,48 +112,12 @@ export const tokens: Token[] = [
     name: "USD Coin",
     icon: "$",
     color: "#ffffff",
-    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bda02913",
+    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     decimals: 6,
     maxValue: 5000,
     priceFeedSymbol: getPriceFeedSymbol("USDC"),
     chain: "base",
     isNetworkToken: false,
-  },
-  {
-    symbol: "USDC",
-    name: "USD Coin",
-    icon: "$",
-    color: "#2775ca",
-    address: "0xA0b86a33E6441b8435b662da0C0C5C2F4b0B8C4E",
-    decimals: 6,
-    maxValue: 5000,
-    priceFeedSymbol: getPriceFeedSymbol("USDC"),
-    chain: "ethereum",
-    isNetworkToken: false,
-  },
-  {
-    symbol: "USDC",
-    name: "USD Coin",
-    icon: "$",
-    color: "#2775ca",
-    address: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
-    decimals: 6,
-    maxValue: 5000,
-    priceFeedSymbol: getPriceFeedSymbol("USDC"),
-    chain: "solana",
-    isNetworkToken: false,
-  },
-  {
-    symbol: "BTC",
-    name: "Bitcoin",
-    icon: "₿",
-    color: "#f7931a",
-    address: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
-    decimals: 8,
-    maxValue: 0.5,
-    priceFeedSymbol: getPriceFeedSymbol("BTC"),
-    chain: "bitcoin",
-    isNetworkToken: true,
   },
   {
     symbol: "ETH",
@@ -174,7 +127,7 @@ export const tokens: Token[] = [
     decimals: 18,
     maxValue: 2.5,
     priceFeedSymbol: getPriceFeedSymbol("ETH"),
-    chain: "ethereum",
+    chain: "base",
     isNetworkToken: true,
   },
   {
@@ -188,29 +141,6 @@ export const tokens: Token[] = [
     chain: "sepolia",
     isNetworkToken: true,
   },
-  {
-    symbol: "USDT",
-    name: "Tether",
-    icon: "₮",
-    color: "#26a17b",
-    decimals: 6,
-    maxValue: 1000,
-    priceFeedSymbol: getPriceFeedSymbol("USDT"),
-    chain: "ethereum",
-    isNetworkToken: false,
-  },
-  {
-    symbol: "SOL",
-    name: "Solana",
-    icon: "◎",
-    color: "#9945ff",
-    address: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
-    decimals: 9,
-    maxValue: 50,
-    priceFeedSymbol: getPriceFeedSymbol("SOL"),
-    chain: "solana",
-    isNetworkToken: true,
-  },
 ];
 
 const SwapContext = createContext<SwapContextType | undefined>(undefined);
@@ -220,7 +150,7 @@ interface SwapProviderProps {
 }
 
 export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
-  const [sellToken, setSellToken] = useState<Token>(tokens[3]);
+  const [sellToken, setSellToken] = useState<Token>(tokens[1]);
   const [receiveToken, setReceiveToken] = useState<Token>(tokens[0]);
   const [sellAmount, setSellAmount] = useState("");
   const [receiveAmount, setReceiveAmount] = useState("");

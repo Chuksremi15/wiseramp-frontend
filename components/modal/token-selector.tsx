@@ -32,7 +32,7 @@ const TokenIconCom = ({
   return (
     <div className="relative">
       <TokenIconWrapper symbol={token.symbol} size={28} />
-      {!token.isNetworkToken && (
+      {token.chain !== "fiat" && (
         <div
           className="rounded h-4 w-4 border-2 border-background  absolute right-0 top-4  flex items-center justify-center"
           style={{
@@ -43,9 +43,11 @@ const TokenIconCom = ({
           }}
         >
           <NetworkIcon
-            name={token.chain!}
+            id={
+              token.chain === "sepolia" ? "ethereum" : token.chain || "ethereum"
+            }
             variant="branded"
-            size="34"
+            size={34}
             className="h-4 w-4 rounded-xl"
           />
         </div>
@@ -133,9 +135,7 @@ export function TokenSelector({
                       <div className="flex-1 text-left">
                         <div className="font-medium">{token.symbol}</div>
                         <div className="text-sm text-gray-500">
-                          {!token.isNetworkToken
-                            ? `${token.name} on ${token.chain}`
-                            : token.name}
+                          {token.symbol} on {token.chain}
                         </div>
                       </div>
                       {selectedToken.symbol === token.symbol &&

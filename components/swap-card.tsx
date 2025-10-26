@@ -114,7 +114,7 @@ const SwapCard = () => {
           Buy, Sell - Crypto
         </h1>
         <p className="text-muted-foreground text-sm">
-          Fast, seamless exchange{" "}
+          Seamless exchange using Bank transfer{" "}
         </p>
       </div>
 
