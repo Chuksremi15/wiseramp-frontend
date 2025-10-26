@@ -18,6 +18,7 @@ export const ReceiveCard = ({
     setError,
     receiveTokenPrice,
     setReceiveToken,
+    gettingTokenEquivalentLoading,
   } = useSwap();
 
   const handleValidationChange = (isValid: boolean, error?: string) => {
@@ -33,6 +34,7 @@ export const ReceiveCard = ({
       onValidationChange={handleValidationChange}
       tokenPrice={receiveTokenPrice}
       isBackground={isBackground}
+      gettingTokenEquivalentLoading={gettingTokenEquivalentLoading}
     >
       <TokenSelector
         selectedToken={receiveToken}
