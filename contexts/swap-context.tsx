@@ -94,7 +94,6 @@ export const tokens: Token[] = [
     chain: "fiat",
     isNetworkToken: true,
   },
-
   {
     symbol: "USDC",
     name: "USD Coin",
@@ -104,6 +103,18 @@ export const tokens: Token[] = [
     decimals: 6,
     maxValue: 5000,
     priceFeedSymbol: getPriceFeedSymbol("USDC"),
+    chain: "sepolia",
+    isNetworkToken: false,
+  },
+  {
+    symbol: "PYUSD",
+    name: "PayPal USD (Sepolia)",
+    icon: "$",
+    color: "#0070BA",
+    address: "0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9",
+    decimals: 6,
+    maxValue: 5000,
+    priceFeedSymbol: getPriceFeedSymbol("PYUSD"),
     chain: "sepolia",
     isNetworkToken: false,
   },
@@ -150,7 +161,7 @@ interface SwapProviderProps {
 }
 
 export const SwapProvider: React.FC<SwapProviderProps> = ({ children }) => {
-  const [sellToken, setSellToken] = useState<Token>(tokens[1]);
+  const [sellToken, setSellToken] = useState<Token>(tokens[2]);
   const [receiveToken, setReceiveToken] = useState<Token>(tokens[0]);
   const [sellAmount, setSellAmount] = useState("");
   const [receiveAmount, setReceiveAmount] = useState("");

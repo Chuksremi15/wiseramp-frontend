@@ -157,8 +157,6 @@ const Page = () => {
     ));
   };
 
-  console.log("selectedTransaction", selectedTransaction);
-
   return (
     <>
       {!isAuthenticated && (

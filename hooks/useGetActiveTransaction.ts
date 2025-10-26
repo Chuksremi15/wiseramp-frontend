@@ -13,14 +13,12 @@ export function useGetActiveTransaction(
   const query = useQuery<ApiTransactionResponse>({
     queryKey: ["activeTransaction", transactionId],
     queryFn: async () => {
-      console.log("Fetching transaction:", transactionId);
       const res = await api.get(`/transaction/${transactionId}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      console.log("Transaction status:", res.data.transaction.status);
       return res.data;
     },
     enabled: Boolean(transactionId) && enabled,

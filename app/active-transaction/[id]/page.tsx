@@ -409,7 +409,6 @@ const CryptoSwapInterface = () => {
   // Memoized formatted time display
   const formattedTimeLeft = useMemo(() => {
     const formatted = formatTime(timeLeft);
-    console.log("Formatted time left:", { timeLeft, formatted });
     return formatted;
   }, [timeLeft, formatTime]);
 
@@ -421,8 +420,6 @@ const CryptoSwapInterface = () => {
       setTimeout(() => setCopied(false), 2000);
     }
   }, [transaction?.sourceAddress]);
-
-  console.log("active transaction", activeTransaction);
 
   if (error) {
     return (
